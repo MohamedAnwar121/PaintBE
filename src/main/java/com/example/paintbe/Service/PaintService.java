@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class PaintService {
 
     private final ShapeFactory shapeFactory;
-
     private ArrayList<Shape> DataBase;
 
     public PaintService(){
@@ -20,10 +19,7 @@ public class PaintService {
 
     public void addNewShape(String shapeString){
         JSONObject shape = new JSONObject(shapeString);
-        Shape shapeObject = shapeFactory.getShape(shape.getString("className"));
-        shapeObject.setX(shape.getJSONObject("attrs").getInt("x"));
-
-
+        Shape shapeObject = shapeFactory.getShape(shape);
         DataBase.add(shapeObject);
     }
 

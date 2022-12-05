@@ -1,5 +1,7 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONObject;
+
 public class Ellipse extends EllipticalShape{
     private int radiusX;
     private int radiusY;
@@ -19,5 +21,12 @@ public class Ellipse extends EllipticalShape{
 
     public void setRadiusY(int radiusY) {
         this.radiusY = radiusY;
+    }
+
+    @Override
+    public void fromJson(JSONObject object){
+        super.fromJson(object);
+        this.setRadiusX(object.getInt("radiusX"));
+        this.setRadiusY(object.getInt("radiusY"));
     }
 }

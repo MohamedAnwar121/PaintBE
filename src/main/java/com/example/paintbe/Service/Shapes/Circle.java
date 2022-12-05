@@ -1,5 +1,7 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONObject;
+
 public class Circle extends EllipticalShape{
 
     private int radius;
@@ -12,4 +14,9 @@ public class Circle extends EllipticalShape{
         this.radius = radius;
     }
 
+    @Override
+    public void fromJson(JSONObject object) {
+        super.fromJson(object);
+        this.radius = object.getInt("radius");
+    }
 }

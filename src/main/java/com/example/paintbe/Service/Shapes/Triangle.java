@@ -1,8 +1,12 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONObject;
+
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Triangle extends Polygon{
+
     private Point point1;
     private Point point2;
     private Point point3;
@@ -29,5 +33,21 @@ public class Triangle extends Polygon{
 
     public void setPoint3(Point point3) {
         this.point3 = point3;
+    }
+
+    @Override
+    public void fromJson(JSONObject object){
+        super.fromJson(object);
+
+        var array = (ArrayList<Integer>) object.
+                getJSONArray("points")
+                .toList()
+                .stream()
+                .map(ob -> (Integer) ob)
+                .toList();
+
+        this.setPoint1(new Point(array.get(0),array.get(1)));
+        this.setPoint2(new Point(array.get(2),array.get(3)));
+        this.setPoint3(new Point(array.get(4),array.get(5)));
     }
 }

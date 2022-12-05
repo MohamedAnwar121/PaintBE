@@ -1,12 +1,15 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONObject;
+
 public abstract class Shape {
     private int x;
     private int y;
-    private String fillColor;
-    private String strokeColor;
+    private String fill;
+    private String stroke;
     private int strokeWidth;
     private boolean draggable;
+    private String id;
 
 
     public int getX() {
@@ -25,20 +28,20 @@ public abstract class Shape {
         this.y = y;
     }
 
-    public String getFillColor() {
-        return fillColor;
+    public String getFill() {
+        return fill;
     }
 
-    public void setFillColor(String color) {
-        this.fillColor = color;
+    public void setFill(String fill) {
+        this.fill = fill;
     }
 
-    public String getStrokeColor() {
-        return strokeColor;
+    public String getStroke() {
+        return stroke;
     }
 
-    public void setStrokeColor(String strokeColor) {
-        this.strokeColor = strokeColor;
+    public void setStroke(String stroke) {
+        this.stroke = stroke;
     }
 
     public int getStrokeWidth() {
@@ -56,4 +59,25 @@ public abstract class Shape {
     public void setDraggable(boolean draggable) {
         this.draggable = draggable;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
+    public void fromJson(JSONObject object) {
+        this.setX(object.getInt("x"));
+        this.setY(object.getInt("y"));
+        this.setStroke(object.getString("stroke"));
+        this.setFill(object.getString("fill"));
+        this.setStrokeWidth(object.getInt("strokeWidth"));
+        this.setDraggable(object.getBoolean("draggable"));
+        //this.setId(object.getString("id"));
+    }
+
+
 }
