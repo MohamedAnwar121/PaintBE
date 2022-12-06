@@ -2,7 +2,7 @@ package com.example.paintbe.Service.Shapes;
 
 import org.json.JSONObject;
 
-public abstract class Shape {
+public abstract class Shape implements Cloneable{
     private int x;
     private int y;
     private String fill;
@@ -10,7 +10,6 @@ public abstract class Shape {
     private int strokeWidth;
     private boolean draggable;
     private String id;
-
 
     public int getX() {
         return x;
@@ -68,7 +67,6 @@ public abstract class Shape {
         this.id = id;
     }
 
-
     public void fromJson(JSONObject object) {
         this.setX(object.getInt("x"));
         this.setY(object.getInt("y"));
@@ -76,8 +74,18 @@ public abstract class Shape {
         this.setFill(object.getString("fill"));
         this.setStrokeWidth(object.getInt("strokeWidth"));
         this.setDraggable(object.getBoolean("draggable"));
-        //this.setId(object.getString("id"));
+        this.setId(String.valueOf(this.hashCode()));
     }
 
 
+    @Override
+    public Shape clone() {
+        try {
+            Shape clone = (Shape) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

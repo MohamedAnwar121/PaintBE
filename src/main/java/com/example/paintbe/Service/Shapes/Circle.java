@@ -19,4 +19,11 @@ public class Circle extends EllipticalShape{
         super.fromJson(object);
         this.radius = object.getInt("radius");
     }
+
+
+    @Override
+    public Circle clone() {
+        super.clone();
+        return (Circle) super.clone();
+    }
 }

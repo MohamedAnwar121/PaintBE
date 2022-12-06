@@ -5,25 +5,41 @@ import org.springframework.stereotype.Service;
 import org.json.*;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 @Service
 public class PaintService {
 
     private final ShapeFactory shapeFactory;
-    private ArrayList<Shape> DataBase;
+    private DataBaseDriver dataBaseDriver;
+    private StackDriver stackDriver;
 
     public PaintService(){
         shapeFactory = new ShapeFactory();
-        DataBase = new ArrayList<>();
+        dataBaseDriver = new DataBaseDriver();
+        stackDriver = new StackDriver();
     }
 
     public void addNewShape(String shapeString){
         JSONObject shape = new JSONObject(shapeString);
         Shape shapeObject = shapeFactory.getShape(shape);
-        DataBase.add(shapeObject);
+        dataBaseDriver.add(shapeObject);
+
+        //Triplet<Shape, ArrayList<Shape>, String> triplet;
+
+        //stackDriver.push((Stack<Object>) stackDriver.getUndo(),shapeObject.clone());
     }
 
-    public ArrayList<Shape> getDataBase() {
-        return DataBase;
+    public String getLastID(){
+        return dataBaseDriver.getByIndex(dataBaseDriver.getDataBaseSize() - 1).getId();
     }
+
+    public ArrayList<Shape> getDataBase(){
+        return dataBaseDriver.getDataBase();
+    }
+
+    /*public void dataBaseDriver(String operation,String id,String shapeString){
+        new Operation(operation,DataBase.get)
+    }*/
+
 }

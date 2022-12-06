@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 
-@CrossOrigin()
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/api")
 @RestController
 public class PaintController {
@@ -21,13 +21,24 @@ public class PaintController {
     }
 
     @PostMapping("/POSTShape")
-    public void postShape(@RequestBody String shapeJSON){
+    public String postShape(@RequestBody String shapeJSON){
         service.addNewShape(shapeJSON);
+        return service.getLastID();
     }
 
     @GetMapping("/GETDataBase")
     public ArrayList<Shape> getDataBase(){
         return service.getDataBase();
     }
+
+    /*@GetMapping("/GETid")
+    public String getLastID(){
+        return service.getLastID();
+    }*/
+
+    /*@PostMapping("/POSTShape")
+    public void postShape(@RequestBody String shapeJSON){
+        service.addNewShape(shapeJSON);
+    }*/
 
 }
