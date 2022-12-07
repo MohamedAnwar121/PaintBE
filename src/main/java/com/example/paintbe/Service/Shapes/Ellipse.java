@@ -1,32 +1,35 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Ellipse extends EllipticalShape{
-    private int radiusX;
-    private int radiusY;
+    private double radiusX;
+    private double radiusY;
 
-
-    public int getRadiusX() {
+    public double getRadiusX() {
         return radiusX;
     }
 
-    public void setRadiusX(int radiusX) {
+    public void setRadiusX(double radiusX) {
         this.radiusX = radiusX;
     }
 
-    public int getRadiusY() {
+    public double getRadiusY() {
         return radiusY;
     }
 
-    public void setRadiusY(int radiusY) {
+    public void setRadiusY(double radiusY) {
         this.radiusY = radiusY;
     }
 
     @Override
     public void fromJson(JSONObject object){
-        super.fromJson(object);
-        this.setRadiusX(object.getInt("radiusX"));
-        this.setRadiusY(object.getInt("radiusY"));
+        try{
+            super.fromJson(object);
+            this.setRadiusX(object.getInt("radiusX"));
+            this.setRadiusY(object.getInt("radiusY"));
+        }catch (JSONException ignored){}
+
     }
 }

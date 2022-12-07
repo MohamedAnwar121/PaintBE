@@ -1,25 +1,28 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Circle extends EllipticalShape{
 
-    private int radius;
+    private double radius;
 
-    public int getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
     @Override
     public void fromJson(JSONObject object) {
-        super.fromJson(object);
-        this.radius = object.getInt("radius");
-    }
+        try{
+            super.fromJson(object);
+            this.radius = object.getInt("radius");
+        }catch(JSONException ignored){}
 
+    }
 
     @Override
     public Circle clone() {

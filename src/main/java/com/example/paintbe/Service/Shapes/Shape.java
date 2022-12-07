@@ -1,29 +1,30 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class Shape implements Cloneable{
-    private int x;
-    private int y;
-    private String fill;
-    private String stroke;
-    private int strokeWidth;
-    private boolean draggable;
+public abstract class Shape implements Cloneable {
+    private double x;
+    private double y;
+    private String fill = "white";
+    private String stroke = "grey";
+    private double strokeWidth = 2;
+    private boolean draggable = false;
     private String id;
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -43,11 +44,11 @@ public abstract class Shape implements Cloneable{
         this.stroke = stroke;
     }
 
-    public int getStrokeWidth() {
+    public double getStrokeWidth() {
         return strokeWidth;
     }
 
-    public void setStrokeWidth(int strokeWidth) {
+    public void setStrokeWidth(double strokeWidth) {
         this.strokeWidth = strokeWidth;
     }
 
@@ -68,13 +69,15 @@ public abstract class Shape implements Cloneable{
     }
 
     public void fromJson(JSONObject object) {
-        this.setX(object.getInt("x"));
-        this.setY(object.getInt("y"));
+
+        this.setX(object.getDouble("x"));
+        this.setY(object.getDouble("y"));
         this.setStroke(object.getString("stroke"));
         this.setFill(object.getString("fill"));
         this.setStrokeWidth(object.getInt("strokeWidth"));
         this.setDraggable(object.getBoolean("draggable"));
         this.setId(String.valueOf(this.hashCode()));
+
     }
 
 

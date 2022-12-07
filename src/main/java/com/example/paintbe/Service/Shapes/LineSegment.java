@@ -1,18 +1,19 @@
 package com.example.paintbe.Service.Shapes;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class LineSegment extends Shape{
 
-    private ArrayList<Integer> points;
+    private ArrayList<Double> points;
     private boolean closed;
 
-    public ArrayList<Integer> getPoints() {
+    public ArrayList<Double> getPoints() {
         return points;
     }
 
-    public void setPoints(ArrayList<Integer> points) {
+    public void setPoints(ArrayList<Double> points) {
         this.points = points;
     }
 
@@ -26,14 +27,19 @@ public class LineSegment extends Shape{
 
     @Override
     public void fromJson(JSONObject object){
-        super.fromJson(object);
-        this.setClosed(object.getBoolean("closed"));
+        try{
+            super.fromJson(object);
+            this.setClosed(object.getBoolean("closed"));
 
-        this.setPoints((ArrayList<Integer>) object.
-                getJSONArray("points")
-                .toList()
-                .stream()
-                .map(ob -> (Integer) ob)
-                .toList());
+            this.setPoints((ArrayList<Double>) object.
+                    getJSONArray("points")
+                    .toList()
+                    .stream()
+                    .map(ob -> (Double) ob)
+                    .toList());
+        }catch (JSONException ignored){}
+
     }
+
+
 }
