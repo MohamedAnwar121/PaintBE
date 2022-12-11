@@ -1,45 +1,63 @@
 package com.example.paintbe.Service;
 
-import com.example.paintbe.Service.Shapes.Shape;
+import com.example.paintbe.Repository.db.CRUDRepository;
+import com.example.paintbe.Service.Model.Shape;
+import org.json.JSONObject;
+import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.json.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Stack;
 
-@Service
+
 public class PaintService {
 
-    private final ShapeFactory shapeFactory;
-    private DataBaseDriver dataBaseDriver;
-    private StackDriver stackDriver;
+    /*private final ShapeFactory shapeFactory;
+    private CRUDRepository dataBaseDriver;
 
-    public PaintService(){
-        shapeFactory = new ShapeFactory();
-        dataBaseDriver = new DataBaseDriver();
-        stackDriver = new StackDriver();
+    @Autowired
+    public PaintService(ShapeFactory shapeFactory, CRUDRepository dataBaseDriver, StackDriver stackDriver) {
+        this.shapeFactory = shapeFactory;
+        this.dataBaseDriver = dataBaseDriver;
     }
 
-    public void addNewShape(String shapeString){
-        JSONObject shape = new JSONObject(shapeString);
+    public void addNewShapeWithOperation(String shapeString, String operation) {
+        *//*JSONObject shape = new JSONObject(shapeString);
+
+
+        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>\n<root>" + XML.toString(shape) + "</root>\n";
+
+        File file = new File("SaveInXML.xml");
+        try {
+            FileWriter myWriter = new FileWriter("SaveInXML.xml");
+            myWriter.write(xml);
+            myWriter.close();
+        } catch (IOException ignored) {
+        }
+
+        JSONObject json = XML.toJSONObject(xml);
+        System.out.println(json.getJSONObject("root"));*//*
+
+
         Shape shapeObject = shapeFactory.getShape(shape);
         dataBaseDriver.add(shapeObject);
 
-        //Triplet<Shape, ArrayList<Shape>, String> triplet;
-
-        //stackDriver.push((Stack<Object>) stackDriver.getUndo(),shapeObject.clone());
     }
 
-    public String getLastID(){
+    public void executeOperation(String operation) {
+
+    }
+
+    public String getLastID() {
         return dataBaseDriver.getByIndex(dataBaseDriver.getDataBaseSize() - 1).getId();
     }
 
-    public ArrayList<Shape> getDataBase(){
+    public ArrayList<Shape> getDataBase() {
         return dataBaseDriver.getDataBase();
-    }
-
-    /*public void dataBaseDriver(String operation,String id,String shapeString){
-        new Operation(operation,DataBase.get)
     }*/
+
 
 }

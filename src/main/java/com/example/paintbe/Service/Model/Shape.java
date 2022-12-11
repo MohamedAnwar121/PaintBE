@@ -1,16 +1,19 @@
-package com.example.paintbe.Service.Shapes;
+package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.UUID;
 
 public abstract class Shape implements Cloneable {
     private double x;
     private double y;
     private String fill = "white";
     private String stroke = "grey";
+    private double scaleX;
+    private double scaleY;
     private double strokeWidth = 2;
     private boolean draggable = false;
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     public double getX() {
         return x;
@@ -60,6 +63,22 @@ public abstract class Shape implements Cloneable {
         this.draggable = draggable;
     }
 
+    public double getScaleX() {
+        return scaleX;
+    }
+
+    public void setScaleX(double scaleX) {
+        this.scaleX = scaleX;
+    }
+
+    public double getScaleY() {
+        return scaleY;
+    }
+
+    public void setScaleY(double scaleY) {
+        this.scaleY = scaleY;
+    }
+
     public String getId() {
         return id;
     }
@@ -69,17 +88,31 @@ public abstract class Shape implements Cloneable {
     }
 
     public void fromJson(JSONObject object) {
-
         this.setX(object.getDouble("x"));
         this.setY(object.getDouble("y"));
         this.setStroke(object.getString("stroke"));
         this.setFill(object.getString("fill"));
         this.setStrokeWidth(object.getInt("strokeWidth"));
         this.setDraggable(object.getBoolean("draggable"));
-        this.setId(String.valueOf(this.hashCode()));
-
+        this.setScaleX(object.getDouble("scaleX"));
+        this.setScaleY(object.getDouble("scaleY"));
     }
 
+    public void generateUniqueID(){
+        UUID uuid = UUID.randomUUID();
+        String least = Long.toString(uuid.getMostSignificantBits());
+        String most = Long.toString(uuid.getLeastSignificantBits());
+        if (least.charAt(0) == '-') least = least.substring(1);
+        if (most.charAt(0) == '-') most = most.substring(1);
+        id =  least + most;
+    }
+
+    /*public JSONObject toJson(){
+        JSONObject json =  new JSONObject();
+        json.put("x",this.getX());
+        json.put("y",this.getY());
+        json.put("fill",this.getFill());
+    }*/
 
     @Override
     public Shape clone() {
@@ -91,4 +124,5 @@ public abstract class Shape implements Cloneable {
             throw new AssertionError();
         }
     }
+
 }

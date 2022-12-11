@@ -1,9 +1,9 @@
-package com.example.paintbe.Service.Shapes;
+package com.example.paintbe.Service.Model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Rectangle extends Polygon{
+public class Rectangle extends Polygon {
     private double height;
     private double width;
 
@@ -24,11 +24,12 @@ public class Rectangle extends Polygon{
     }
 
     @Override
-    public void fromJson(JSONObject object){
-        try{
+    public void fromJson(JSONObject object) {
+        try {
             super.fromJson(object);
             this.setHeight(object.getInt("height"));
             this.setWidth(object.getInt("width"));
-        }catch (JSONException ignored){}
+        } catch (JSONException ignored) {
+        }
     }
 }

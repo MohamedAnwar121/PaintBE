@@ -1,18 +1,17 @@
 package com.example.paintbe.Service;
 
-public class Triplet <A, B, C>  {
+public class Pair<A, B> {
 
     A first;
     B second;
-    C third;
 
-    public Triplet(A first, B second, C third){
+    public Pair(A first, B second) {
         this.first = first;
         this.second = second;
-        this.third = third;
     }
 
-    public Triplet(){}
+    public Pair() {
+    }
 
 
     public A getFirst() {
@@ -29,13 +28,5 @@ public class Triplet <A, B, C>  {
 
     public void setSecond(B second) {
         this.second = second;
-    }
-
-    public C getThird() {
-        return third;
-    }
-
-    public void setThird(C third) {
-        this.third = third;
     }
 }

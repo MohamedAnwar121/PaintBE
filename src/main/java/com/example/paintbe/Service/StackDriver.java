@@ -1,15 +1,15 @@
 package com.example.paintbe.Service;
 
-import com.example.paintbe.Service.Shapes.Shape;
+import com.example.paintbe.Repository.ICacheDriver;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
+@Component
+public class StackDriver{
 
-public class StackDriver implements IStackDriver {
-
-    Stack<Triplet<Shape, ArrayList<Shape>, String>> undo;
-    Stack<Triplet<Shape, ArrayList<Shape>, String>> redo;
+    /*Stack<Pair<Object, String>> undo;
+    Stack<Pair<Object, String>> redo;
 
     public StackDriver() {
         undo = new Stack<>();
@@ -17,43 +17,32 @@ public class StackDriver implements IStackDriver {
     }
 
     @Override
-    public void push(Stack<Triplet<Shape, ArrayList<Shape>, String>> stack,
-                     Triplet<Shape, ArrayList<Shape>, String> object) {
-
-        if (object.first != null) {
-            Shape clonedObject = object.first.clone();
-            clonedObject.setId(object.first.getId());
-
-            Triplet<Shape, ArrayList<Shape>, String> triplet = new Triplet<>();
-            triplet.first = clonedObject;
-            triplet.third = object.getThird();
-            stack.push(triplet);
-        }
-
+    public void push(Stack<Pair<Object, String>> stack, Pair<Object, String> object) {
+        stack.push(object);
     }
 
     @Override
-    public Triplet<Shape, ArrayList<Shape>, String> pop(Stack<Triplet<Shape, ArrayList<Shape>, String>> stack) {
+    public Pair<Object, String> pop(Stack<Pair<Object, String>> stack) {
         return stack.pop();
     }
 
     @Override
-    public void clear(Stack<Triplet<Shape, ArrayList<Shape>, String>> stack) {
+    public void clear(Stack<Pair<Object, String>> stack) {
         stack.clear();
     }
 
     @Override
-    public Triplet<Shape, ArrayList<Shape>, String> peek(Stack<Triplet<Shape, ArrayList<Shape>, String>> stack) {
+    public Pair<Object, String> peek(Stack<Pair<Object, String>> stack) {
         return stack.peek();
     }
 
     @Override
-    public Stack<Triplet<Shape, ArrayList<Shape>, String>> getUndo() {
+    public Stack<Pair<Object, String>> getUndo() {
         return undo;
     }
 
     @Override
-    public Stack<Triplet<Shape, ArrayList<Shape>, String>> getRedo() {
+    public Stack<Pair<Object, String>> getRedo() {
         return redo;
-    }
+    }*/
 }
