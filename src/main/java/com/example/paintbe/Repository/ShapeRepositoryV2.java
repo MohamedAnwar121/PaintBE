@@ -4,12 +4,12 @@ import com.example.paintbe.Repository.cache.DbCacheRepository;
 import com.example.paintbe.Repository.cache.ShapeCacheRepository;
 import com.example.paintbe.Repository.db.CRUD;
 import com.example.paintbe.Repository.db.CRUDRepository;
+import com.example.paintbe.Service.JSONUtil;
 import com.example.paintbe.Service.Model.*;
 import com.example.paintbe.Service.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -33,25 +33,6 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
     @Override
     public boolean insert(Shape shape) {
         undoActions.push(new Pair<>(shape.getId(), CRUD.CREATE));
-
-        LineSegment temp = (LineSegment) shape;
-        LineSegment line = (LineSegment) shape.clone();
-        System.out.println(temp.getPoints().get(0));
-        System.out.println(line.getPoints().get(0));
-
-        temp.getPoints().set(0,new BigDecimal(50));
-
-        System.out.println(temp.getPoints().get(0));
-        System.out.println(line.getPoints().get(0));
-
-        /*RegularPolygon square = (RegularPolygon) shape.clone();
-        System.out.println(square.getX());
-        System.out.println(square.getY());
-        System.out.println(square.getStrokeWidth());
-        System.out.println(square.getSides());
-        System.out.println(square.getRadius());*/
-
-
         shapeCacheRepo.save(shape.clone());
         return super.insert(shape);
     }
@@ -59,15 +40,6 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
     @Override
     public boolean update(Shape shape) {
         undoActions.push(new Pair<>(shape.getId(), CRUD.UPDATE));
-
-        /*RegularPolygon square = (RegularPolygon) shape.clone();
-        System.out.println(square.getX());
-        System.out.println(square.getY());
-        System.out.println(square.getStrokeWidth());
-        System.out.println(square.getSides());
-        System.out.println(square.getRadius());*/
-
-
         shapeCacheRepo.update(shape.clone());
         return super.update(shape);
     }
@@ -89,6 +61,14 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
         Shape shape = getByID(id).clone();
         shape.setId(UUID.randomUUID().toString());
         return shape;
+    }
+
+    public void printDb(){
+        var db = getDataBase();
+        System.out.println(db.size());
+        for (Shape shape : db){
+            System.out.println(shape.getId());
+        }
     }
 
     public Pair<List<Shape>, CRUD> undo() {

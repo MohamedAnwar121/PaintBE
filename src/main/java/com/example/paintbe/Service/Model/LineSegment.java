@@ -66,7 +66,7 @@ public class LineSegment extends Shape {
     public LineSegment clone() {
         LineSegment line = (LineSegment) super.clone();
         line.setPoints(new ArrayList<>(this.getPoints()));
-        return (LineSegment) super.clone();
+        return line;
     }
 
 

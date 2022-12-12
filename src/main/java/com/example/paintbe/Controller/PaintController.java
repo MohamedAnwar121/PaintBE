@@ -30,7 +30,7 @@ public class PaintController {
 
     @PostMapping("/Create")
     public ResponseEntity<String> createShape(@RequestBody String json) {
-        return ResponseEntity.ok(new JSONObject().put("id",service.addNewShape(json)).toString());
+        return ResponseEntity.ok(new JSONObject().put("id", service.addNewShape(json)).toString());
     }
 
     @PostMapping("/Update")
@@ -40,7 +40,7 @@ public class PaintController {
 
     @PostMapping("/Copy")
     public ResponseEntity<String> copyShape(@RequestBody String id) {
-        return ResponseEntity.ok(new JSONObject().put("id",service.copyAndInsert(id)).toString());
+        return ResponseEntity.ok(new JSONObject().put("id", service.copyAndInsert(id)).toString());
     }
 
     @PostMapping("/Delete")
@@ -49,13 +49,13 @@ public class PaintController {
     }
 
     @GetMapping("/Undo")
-    public JSONObject undoOperation() {
-        return service.undo();
+    public ResponseEntity<String> undoOperation() {
+        return ResponseEntity.ok(service.undo().toString());
     }
 
     @GetMapping("/Redo")
-    public JSONObject redoOperation() {
-        return service.redo();
+    public ResponseEntity<String> redoOperation() {
+        return ResponseEntity.ok(service.redo().toString());
     }
 
     @GetMapping("/Clear")
@@ -64,8 +64,8 @@ public class PaintController {
     }
 
     @PostMapping("/Save")
-    public File save(@RequestBody String jsonStage, @RequestBody String fileType) {
-        return saveService.save(jsonStage, fileType);
+    public File save(@RequestBody() String json) {
+        return saveService.save(json);
     }
 
     @PostMapping("/Load")
@@ -73,17 +73,6 @@ public class PaintController {
         return loadService.load(file);
     }
 
-
-    /*@PostMapping("/POSTShapeWithOperation")
-    public String postShapeWithOperation(@RequestBody String shapeJSON, @RequestBody String operation) {
-        service.addNewShapeWithOperation(shapeJSON, operation);
-        return service.getLastID();
-    }
-
-    @PostMapping("/PostOperation")
-    public String postOperation(@RequestBody String operation) {
-        return null;
-    }*/
 
     /*@GetMapping("/GETDataBase")
     public ArrayList<Shape> getDataBase() {

@@ -11,13 +11,15 @@ import java.io.IOException;
 @Component
 public class SaveService {
 
-    /**
-     * @param jsonStage get konva stage from front end as jsonString
-     * @param fileType user selects type of file to save dataIn (Xml or JSON)
-     * @return created file which was selected
-     */
-    public File save(String jsonStage, String fileType) {
-        JSONObject json = new JSONObject(jsonStage);
+
+    public File save(String jsonStageAndType) {
+
+        JSONObject jsonObject = new JSONObject(jsonStageAndType);
+        String fileType = jsonObject.getString("fileType");
+
+        System.out.println(fileType);
+        JSONObject json = new JSONObject(jsonObject.getString("jsonStage"));
+        System.out.println(json);
         return switch (fileType){
             case "JSON" -> constructJSONFile(json);
             case "XMl" -> constructXMLFile(json);

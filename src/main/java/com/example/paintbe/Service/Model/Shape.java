@@ -9,7 +9,7 @@ public abstract class Shape implements Cloneable, Serializable {
     private double x = 0;
     private double y = 0;
     private String fill = "white";
-    private String stroke = "grey";
+    private String stroke = "black";
     private double scaleX = 1;
     private double scaleY = 1;
     private double strokeWidth = 2;
