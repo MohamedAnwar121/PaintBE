@@ -5,6 +5,7 @@ import com.example.paintbe.Service.SaveService;
 import com.example.paintbe.Service.ShapeService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -28,8 +29,8 @@ public class PaintController {
     // add , update , copy , delete , undo , redo, clear
 
     @PostMapping("/Create")
-    public String createShape(@RequestBody String json) {
-        return service.addNewShape(json);
+    public ResponseEntity<String> createShape(@RequestBody String json) {
+        return ResponseEntity.ok(new JSONObject().put("id",service.addNewShape(json)).toString());
     }
 
     @PostMapping("/Update")
@@ -38,8 +39,8 @@ public class PaintController {
     }
 
     @PostMapping("/Copy")
-    public String copyShape(@RequestBody String id) {
-        return service.copyAndInsert(id);
+    public ResponseEntity<String> copyShape(@RequestBody String id) {
+        return ResponseEntity.ok(new JSONObject().put("id",service.copyAndInsert(id)).toString());
     }
 
     @PostMapping("/Delete")

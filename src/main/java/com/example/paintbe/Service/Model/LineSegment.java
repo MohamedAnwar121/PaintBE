@@ -1,22 +1,22 @@
 package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class LineSegment extends Shape {
 
-    private ArrayList<Double> points;
+    private ArrayList<BigDecimal> points;
     private boolean closed;
     private String lineCap;
     private String lineJoin;
 
-    public ArrayList<Double> getPoints() {
+    public ArrayList<BigDecimal> getPoints() {
         return points;
     }
 
-    public void setPoints(ArrayList<Double> points) {
+    public void setPoints(ArrayList<BigDecimal> points) {
         this.points = points;
     }
 
@@ -46,17 +46,18 @@ public class LineSegment extends Shape {
 
     @Override
     public void fromJson(JSONObject object) {
-        try {
-            super.fromJson(object);
-            this.setClosed(object.getBoolean("closed"));
-            this.setLineCap(object.getString("lineCap"));
-            this.setLineJoin(object.getString("lineJoin"));
-            this.setPoints((ArrayList<Double>) object.
+        super.fromJson(object);
+        if (object.has("closed")) this.setClosed(object.getBoolean("closed"));
+        if (object.has("lineCap")) this.setLineCap(object.getString("lineCap"));
+        if (object.has("lineJoin")) this.setLineJoin(object.getString("lineJoin"));
+
+        if (object.has("points")){
+            this.setPoints(new ArrayList<>(object.
                     getJSONArray("points")
                     .toList()
                     .stream()
-                    .map(ob -> (Double) ob)
-                    .toList());
-        } catch (JSONException ignored) {}
+                    .map(ob -> (BigDecimal) ob)
+                    .toList()));
+        }
     }
 }

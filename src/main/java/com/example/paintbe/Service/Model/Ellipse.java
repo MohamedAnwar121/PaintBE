@@ -1,6 +1,5 @@
 package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Ellipse extends EllipticalShape {
@@ -25,12 +24,9 @@ public class Ellipse extends EllipticalShape {
 
     @Override
     public void fromJson(JSONObject object) {
-        try {
-            super.fromJson(object);
-            this.setRadiusX(object.getInt("radiusX"));
-            this.setRadiusY(object.getInt("radiusY"));
-        } catch (JSONException ignored) {
-        }
+        super.fromJson(object);
+        if(object.has("radiusX")) this.setRadiusX(object.getInt("radiusX"));
+        if(object.has("radiusY")) this.setRadiusY(object.getInt("radiusY"));
     }
 
 }

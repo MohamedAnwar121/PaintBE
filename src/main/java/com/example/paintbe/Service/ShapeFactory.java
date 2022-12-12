@@ -18,10 +18,8 @@ public class ShapeFactory {
             case "LineSegment" -> new LineSegment();
             default -> null;
         };
-        if (shape != null) {
-            shape.fromJson(object.getJSONObject("attrs"));
-            shape.generateUniqueID();
-        }
+        if (shape != null) shape.fromJson(object.getJSONObject("attrs"));
+
         return shape;
     }
 }

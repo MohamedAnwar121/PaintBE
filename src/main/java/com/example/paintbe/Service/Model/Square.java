@@ -1,6 +1,5 @@
 package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Square extends Polygon {
@@ -16,10 +15,7 @@ public class Square extends Polygon {
 
     @Override
     public void fromJson(JSONObject object) {
-        try {
-            super.fromJson(object);
-            this.setSideLength(object.getInt("height"));
-        } catch (JSONException ignored) {
-        }
+        super.fromJson(object);
+        if (object.has("height")) this.setSideLength(object.getInt("height"));
     }
 }

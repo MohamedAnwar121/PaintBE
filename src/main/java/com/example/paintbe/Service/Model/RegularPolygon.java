@@ -1,6 +1,5 @@
 package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegularPolygon extends Polygon {
@@ -16,12 +15,8 @@ public class RegularPolygon extends Polygon {
 
     @Override
     public void fromJson(JSONObject object) {
-        try {
-            super.fromJson(object);
-            this.setRadius(object.getInt("radius"));
-        } catch (JSONException ignored) {
-        }
-
+        super.fromJson(object);
+        if (object.has("radius")) this.setRadius(object.getInt("radius"));
     }
 
 }

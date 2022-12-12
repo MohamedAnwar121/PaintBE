@@ -1,16 +1,18 @@
 package com.example.paintbe.Service.Model;
 
 import org.json.JSONObject;
+import org.springframework.util.SerializationUtils;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Shape implements Cloneable {
-    private double x;
-    private double y;
+public abstract class Shape implements Cloneable , Serializable {
+    private double x = 0;
+    private double y = 0;
     private String fill = "white";
     private String stroke = "grey";
-    private double scaleX;
-    private double scaleY;
+    private double scaleX = 1;
+    private double scaleY = 1;
     private double strokeWidth = 2;
     private boolean draggable = false;
     private String id = UUID.randomUUID().toString();
@@ -88,35 +90,20 @@ public abstract class Shape implements Cloneable {
     }
 
     public void fromJson(JSONObject object) {
-        this.setX(object.getDouble("x"));
-        this.setY(object.getDouble("y"));
-        this.setStroke(object.getString("stroke"));
-        this.setFill(object.getString("fill"));
-        this.setStrokeWidth(object.getInt("strokeWidth"));
-        this.setDraggable(object.getBoolean("draggable"));
-        this.setScaleX(object.getDouble("scaleX"));
-        this.setScaleY(object.getDouble("scaleY"));
+        if (object.has("x")) this.setX(object.getDouble("x"));
+        if (object.has("y")) this.setY(object.getDouble("y"));
+        if (object.has("stroke")) this.setStroke(object.getString("stroke"));
+        if (object.has("fill")) this.setFill(object.getString("fill"));
+        if (object.has("strokeWidth")) this.setStrokeWidth(object.getInt("strokeWidth"));
+        if (object.has("draggable")) this.setDraggable(object.getBoolean("draggable"));
+        if (object.has("scaleX")) this.setScaleX(object.getDouble("scaleX"));
+        if (object.has("scaleY")) this.setScaleY(object.getDouble("scaleY"));
     }
-
-    public void generateUniqueID(){
-        UUID uuid = UUID.randomUUID();
-        String least = Long.toString(uuid.getMostSignificantBits());
-        String most = Long.toString(uuid.getLeastSignificantBits());
-        if (least.charAt(0) == '-') least = least.substring(1);
-        if (most.charAt(0) == '-') most = most.substring(1);
-        id =  least + most;
-    }
-
-    /*public JSONObject toJson(){
-        JSONObject json =  new JSONObject();
-        json.put("x",this.getX());
-        json.put("y",this.getY());
-        json.put("fill",this.getFill());
-    }*/
 
     @Override
     public Shape clone() {
         try {
+            //Shape shape = SerializationUtils.clone(this);
             Shape clone = (Shape) super.clone();
             // TODO: copy mutable state here, so the clone can't change the internals of the original
             return clone;

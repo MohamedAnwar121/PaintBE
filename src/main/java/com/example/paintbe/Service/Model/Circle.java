@@ -1,6 +1,5 @@
 package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Circle extends EllipticalShape {
@@ -17,13 +16,9 @@ public class Circle extends EllipticalShape {
 
     @Override
     public void fromJson(JSONObject object) {
-        try {
-            super.fromJson(object);
-            this.radius = object.getInt("radius");
-        } catch (JSONException ignored) {
-        }
+        super.fromJson(object);
+        if(object.has("radius")) this.radius = object.getInt("radius");
     }
-
 
 
     @Override

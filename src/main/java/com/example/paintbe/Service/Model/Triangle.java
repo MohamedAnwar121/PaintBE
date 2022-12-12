@@ -1,11 +1,5 @@
 package com.example.paintbe.Service.Model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
 public class Triangle extends Polygon {
 
     /*private Point2D.Double point1;
@@ -38,7 +32,7 @@ public class Triangle extends Polygon {
 
     @Override
     public void fromJson(JSONObject object) {
-        try {
+
             super.fromJson(object);
 
             var array = (ArrayList<Double>) object.
@@ -51,6 +45,6 @@ public class Triangle extends Polygon {
             this.setPoint1(new Point2D.Double(array.get(0), array.get(1)));
             this.setPoint2(new Point2D.Double(array.get(2), array.get(3)));
             this.setPoint3(new Point2D.Double(array.get(4), array.get(5)));
-        } catch (JSONException ignored) {}
+
     }*/
 }
