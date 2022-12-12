@@ -14,11 +14,13 @@ public class ShapeCacheRepository {
     private final static HashMap<String, Pair<Stack<Shape>, Stack<Shape>>> cache = new HashMap<>();
 
     public void save(Shape shape) {
-        Stack<Shape> undo = new Stack<>();
-        Stack<Shape> redo = new Stack<>();
-        undo.push(shape);
-        Pair<Stack<Shape>,Stack<Shape>> history = new Pair<>(undo,redo);
-        cache.put(shape.getId(), history);
+        if (!cache.containsKey(shape.getId())){
+            Stack<Shape> undo = new Stack<>();
+            Stack<Shape> redo = new Stack<>();
+            undo.push(shape);
+            Pair<Stack<Shape>,Stack<Shape>> history = new Pair<>(undo,redo);
+            cache.put(shape.getId(), history);
+        }
     }
 
     public void update(Shape shape) {

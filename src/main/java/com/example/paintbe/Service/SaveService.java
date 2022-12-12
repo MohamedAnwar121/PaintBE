@@ -22,7 +22,7 @@ public class SaveService {
         System.out.println(json);
         return switch (fileType){
             case "JSON" -> constructJSONFile(json);
-            case "XMl" -> constructXMLFile(json);
+            case "XML" -> constructXMLFile(json);
             default -> null;
         };
     }

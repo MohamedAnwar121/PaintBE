@@ -24,7 +24,7 @@ public class ShapeService implements IOperation{
     @Override
     public String addNewShape(String json) {
         Shape shape = shapeFactory.getShape(new JSONObject(json));
-        shapeRepository.insert(shape);
+        shapeRepository.createShape(shape);
 
         shapeRepository.printDb();
 
@@ -35,15 +35,14 @@ public class ShapeService implements IOperation{
     public void updateShape(String json) {
         Shape shape = shapeFactory.getShape(new JSONObject(json));
         shape.setId(new JSONObject(json).getJSONObject("attrs").getString("id"));
-        shapeRepository.update(shape);
-
+        shapeRepository.updateShape(shape);
         shapeRepository.printDb();
     }
 
     @Override
     public String copyAndInsert(String id) {
-       Shape shape = shapeRepository.copy(id);
-       shapeRepository.insert(shape);
+       Shape shape = shapeRepository.copyShape(id);
+       shapeRepository.createShape(shape);
 
        shapeRepository.printDb();
 
@@ -52,7 +51,7 @@ public class ShapeService implements IOperation{
 
     @Override
     public void deleteShape(String id) {
-        shapeRepository.delete(id);
+        shapeRepository.deleteShape(id);
 
         shapeRepository.printDb();
     }
@@ -77,7 +76,7 @@ public class ShapeService implements IOperation{
 
     @Override
     public void clearStage() {
-        shapeRepository.clear();
+        shapeRepository.clearDB();
     }
 }
 

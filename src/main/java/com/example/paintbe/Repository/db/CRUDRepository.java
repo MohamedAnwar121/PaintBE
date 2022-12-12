@@ -22,7 +22,7 @@ public class CRUDRepository<T extends Shape> implements IDataBaseRepository<T> {
 
     @Override
     public boolean update(T obj) {
-        Shape shape = this.getByID(obj.getId());
+        T shape = this.getByID(obj.getId());
         if (shape == null) return false;
         delete(shape.getId());
         insert(obj);

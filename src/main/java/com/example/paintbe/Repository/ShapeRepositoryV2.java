@@ -4,7 +4,6 @@ import com.example.paintbe.Repository.cache.DbCacheRepository;
 import com.example.paintbe.Repository.cache.ShapeCacheRepository;
 import com.example.paintbe.Repository.db.CRUD;
 import com.example.paintbe.Repository.db.CRUDRepository;
-import com.example.paintbe.Service.JSONUtil;
 import com.example.paintbe.Service.Model.*;
 import com.example.paintbe.Service.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,34 +29,32 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
         this.dbCacheRepo = dbCacheRepository;
     }
 
-    @Override
-    public boolean insert(Shape shape) {
+    public boolean createShape(Shape shape) {
         undoActions.push(new Pair<>(shape.getId(), CRUD.CREATE));
         shapeCacheRepo.save(shape.clone());
         return super.insert(shape);
     }
 
-    @Override
-    public boolean update(Shape shape) {
+
+    public boolean updateShape(Shape shape) {
         undoActions.push(new Pair<>(shape.getId(), CRUD.UPDATE));
         shapeCacheRepo.update(shape.clone());
         return super.update(shape);
     }
 
-    public void clear() {
+    public void clearDB() {
         undoActions.push(new Pair<>("clear", CRUD.CLEAR));
         dbCacheRepo.save(getDataBase());
         deleteAll();
     }
 
-    @Override
-    public boolean delete(String id) {
+    public boolean deleteShape(String id) {
         undoActions.push(new Pair<>(id, CRUD.DELETE));
         shapeCacheRepo.update(getByID(id).clone());
         return super.delete(id);
     }
 
-    public Shape copy(String id) {
+    public Shape copyShape(String id) {
         Shape shape = getByID(id).clone();
         shape.setId(UUID.randomUUID().toString());
         return shape;
@@ -76,6 +73,9 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
         redoActions.push(lastAction);
         String id = lastAction.getFirst();
         CRUD action = lastAction.getSecond();
+
+        System.out.println(id);
+
         switch (action) {
             case CREATE -> {
                 Shape shape = getByID(id);

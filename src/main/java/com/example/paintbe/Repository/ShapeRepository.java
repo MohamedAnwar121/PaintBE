@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-public class ShapeRepository extends CRUDRepository<Shape> {
+public class ShapeRepository {
 
-    private CacheRepository cacheRepository;
+    /*private CacheRepository cacheRepository;
 
     @Autowired
     public ShapeRepository(CacheRepository cacheRepository) {
@@ -45,6 +45,6 @@ public class ShapeRepository extends CRUDRepository<Shape> {
     public Shape copy(String id) {
         Shape shape = getByID(id);
         return shape.clone();
-    }
+    }*/
 
 }
