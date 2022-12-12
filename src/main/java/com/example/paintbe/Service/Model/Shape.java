@@ -14,6 +14,7 @@ public abstract class Shape implements Cloneable, Serializable {
     private double scaleY = 1;
     private double strokeWidth = 2;
     private boolean draggable = false;
+    private String type;
     private String id = UUID.randomUUID().toString();
 
     public double getX() {
@@ -88,6 +89,13 @@ public abstract class Shape implements Cloneable, Serializable {
         this.id = id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     public void fromJson(JSONObject object) {
         if (object.has("x")) this.setX(object.getDouble("x"));
         if (object.has("y")) this.setY(object.getDouble("y"));
@@ -97,6 +105,7 @@ public abstract class Shape implements Cloneable, Serializable {
         if (object.has("draggable")) this.setDraggable(object.getBoolean("draggable"));
         if (object.has("scaleX")) this.setScaleX(object.getDouble("scaleX"));
         if (object.has("scaleY")) this.setScaleY(object.getDouble("scaleY"));
+        if (object.has("type")) this.setType(object.getString("type"));
     }
 
     @Override
