@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShapeFactory {
     public Shape getShape(JSONObject object) {
-        String shapeType = object.getString("type");
+        String shapeType = object.getJSONObject("attrs").getString("type");
         Shape shape = switch (shapeType) {
             case "Square" -> new Square();
             case "Rectangle" -> new Rectangle();

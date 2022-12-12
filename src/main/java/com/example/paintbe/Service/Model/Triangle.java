@@ -1,8 +1,8 @@
 package com.example.paintbe.Service.Model;
 
-public class Triangle extends Polygon {
+public class Triangle extends RegularPolygon {}
 
-    /*private Point2D.Double point1;
+/*private Point2D.Double point1;
     private Point2D.Double point2;
     private Point2D.Double point3;
 
@@ -47,4 +47,3 @@ public class Triangle extends Polygon {
             this.setPoint3(new Point2D.Double(array.get(4), array.get(5)));
 
     }*/
-}

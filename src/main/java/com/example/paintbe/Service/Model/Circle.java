@@ -2,7 +2,7 @@ package com.example.paintbe.Service.Model;
 
 import org.json.JSONObject;
 
-public class Circle extends EllipticalShape {
+public class Circle extends EllipticalShape{
 
     private double radius;
 
@@ -17,13 +17,11 @@ public class Circle extends EllipticalShape {
     @Override
     public void fromJson(JSONObject object) {
         super.fromJson(object);
-        if(object.has("radius")) this.radius = object.getInt("radius");
+        if(object.has("radius")) this.radius = object.getDouble("radius");
     }
-
 
     @Override
     public Circle clone() {
-        super.clone();
         return (Circle) super.clone();
     }
 }

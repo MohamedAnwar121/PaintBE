@@ -1,6 +1,7 @@
 package com.example.paintbe.Service.Model;
 
 import org.json.JSONObject;
+import org.springframework.util.SerializationUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -60,4 +61,13 @@ public class LineSegment extends Shape {
                     .toList()));
         }
     }
+
+    @Override
+    public LineSegment clone() {
+        LineSegment line = (LineSegment) super.clone();
+        line.setPoints(new ArrayList<>(this.getPoints()));
+        return (LineSegment) super.clone();
+    }
+
+
 }

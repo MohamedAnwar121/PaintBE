@@ -25,8 +25,11 @@ public class Ellipse extends EllipticalShape {
     @Override
     public void fromJson(JSONObject object) {
         super.fromJson(object);
-        if(object.has("radiusX")) this.setRadiusX(object.getInt("radiusX"));
-        if(object.has("radiusY")) this.setRadiusY(object.getInt("radiusY"));
+        if(object.has("radiusX")) this.setRadiusX(object.getDouble("radiusX"));
+        if(object.has("radiusY")) this.setRadiusY(object.getDouble("radiusY"));
     }
-
+    @Override
+    public Ellipse clone() {
+        return (Ellipse) super.clone();
+    }
 }

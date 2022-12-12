@@ -1,12 +1,11 @@
 package com.example.paintbe.Service.Model;
 
 import org.json.JSONObject;
-import org.springframework.util.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Shape implements Cloneable , Serializable {
+public abstract class Shape implements Cloneable, Serializable {
     private double x = 0;
     private double y = 0;
     private String fill = "white";
@@ -103,13 +102,9 @@ public abstract class Shape implements Cloneable , Serializable {
     @Override
     public Shape clone() {
         try {
-            //Shape shape = SerializationUtils.clone(this);
-            Shape clone = (Shape) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
+            return (Shape) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
-
 }
