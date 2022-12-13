@@ -1,12 +1,18 @@
 package com.example.paintbe.Controller;
 
-import com.example.paintbe.Service.LoadService;
-import com.example.paintbe.Service.SaveService;
-import com.example.paintbe.Service.ShapeService;
+import com.example.paintbe.Service.*;
+
+import com.example.paintbe.Service.FileMangementService.FilesStorageService;
+import com.example.paintbe.Service.FileMangementService.InitiateFileSystemService;
+import com.example.paintbe.Service.Model.FileInfo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.File;
 
@@ -15,63 +21,79 @@ import java.io.File;
 @RestController
 public class PaintController {
 
-    private final ShapeService service;
-    private final SaveService saveService;
-    private final LoadService loadService;
+    private final PaintService paintService;
+    private final InitiateFileSystemService initiateFileSystemService;
+    private final FilesStorageService storageService;
 
     @Autowired
-    public PaintController(ShapeService service, SaveService saveService, LoadService loadService) {
-        this.service = service;
-        this.saveService = saveService;
-        this.loadService = loadService;
+    public PaintController(PaintService paintService, InitiateFileSystemService initiateFileSystemService, FilesStorageService storageService) {
+        this.paintService = paintService;
+        this.initiateFileSystemService = initiateFileSystemService;
+        this.storageService= storageService;
     }
 
     // add , update , copy , delete , undo , redo, clear
 
     @PostMapping("/Create")
     public ResponseEntity<String> createShape(@RequestBody String json) {
-        return ResponseEntity.ok(new JSONObject().put("id", service.addNewShape(json)).toString());
+        return ResponseEntity.ok(new JSONObject().put("id", paintService.addNewShape(json)).toString());
     }
 
     @PostMapping("/Update")
     public void updateShape(@RequestBody String json) {
-        service.updateShape(json);
+        paintService.updateShape(json);
     }
 
     @PostMapping("/Copy")
     public ResponseEntity<String> copyShape(@RequestBody String id) {
-        return ResponseEntity.ok(new JSONObject().put("id", service.copyAndInsert(id)).toString());
+        return ResponseEntity.ok(new JSONObject().put("id", paintService.copyAndInsert(id)).toString());
     }
 
     @PostMapping("/Delete")
     public void deleteShape(@RequestBody String id) {
-        service.deleteShape(id);
+        paintService.deleteShape(id);
     }
 
     @GetMapping("/Undo")
     public ResponseEntity<String> undoOperation() {
-        return ResponseEntity.ok(service.undo());
+        return ResponseEntity.ok(paintService.undo());
     }
 
     @GetMapping("/Redo")
     public ResponseEntity<String> redoOperation() {
-        return ResponseEntity.ok(service.redo());
+        return ResponseEntity.ok(paintService.redo());
     }
 
     @GetMapping("/Clear")
     public void clearDataBase() {
-        service.clearStage();
+        paintService.clearStage();
     }
 
+
     @PostMapping("/Save")
-    public File save(@RequestBody() String json) {
-        return saveService.save(json);
+    public FileInfo save(@RequestBody String json) {
+        File file = storageService.createFile(json);
+        String url = MvcUriComponentsBuilder
+                .fromMethodName(PaintController.class, "getFile", file)
+                .build().toString();
+        return new FileInfo(file.getName(),url);
     }
 
     @PostMapping("/Load")
-    public String load(@RequestBody File file) {
-        return loadService.load(file);
+    public ResponseEntity<String> load(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(storageService.save(file).toString());
     }
+
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> getFile(@PathVariable File filename) {
+        Resource file = storageService.load(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\""
+                                + file.getFilename() + "\"").body(file);
+    }
+
 
 
     /*@GetMapping("/GETDataBase")

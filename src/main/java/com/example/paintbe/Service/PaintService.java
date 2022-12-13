@@ -1,63 +1,95 @@
 package com.example.paintbe.Service;
 
-import com.example.paintbe.Repository.db.CRUDRepository;
+import com.example.paintbe.Repository.ShapeRepository;
+import com.example.paintbe.Repository.db.CRUD;
 import com.example.paintbe.Service.Model.Shape;
+import com.example.paintbe.Util.JSONUtil;
+import com.example.paintbe.Util.Pair;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.XML;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+@Component
+public class PaintService implements IOperation{
 
-public class PaintService {
+    private ShapeRepository shapeRepository;
+    private final ShapeFactory shapeFactory;
 
-    /*private final ShapeFactory shapeFactory;
-    private CRUDRepository dataBaseDriver;
-
-    @Autowired
-    public PaintService(ShapeFactory shapeFactory, CRUDRepository dataBaseDriver, StackDriver stackDriver) {
+    public PaintService(ShapeRepository shapeRepository, ShapeFactory shapeFactory) {
+        this.shapeRepository = shapeRepository;
         this.shapeFactory = shapeFactory;
-        this.dataBaseDriver = dataBaseDriver;
     }
 
-    public void addNewShapeWithOperation(String shapeString, String operation) {
-        *//*JSONObject shape = new JSONObject(shapeString);
+    @Override
+    public String addNewShape(String json) {
+        Shape shape = shapeFactory.getShape(new JSONObject(json));
+        shapeRepository.createShape(shape);
+        shapeRepository.clearRedoStack(); // for clear the redo stack after every operation
 
+        shapeRepository.printDb();
 
-        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>\n<root>" + XML.toString(shape) + "</root>\n";
-
-        File file = new File("SaveInXML.xml");
-        try {
-            FileWriter myWriter = new FileWriter("SaveInXML.xml");
-            myWriter.write(xml);
-            myWriter.close();
-        } catch (IOException ignored) {
-        }
-
-        JSONObject json = XML.toJSONObject(xml);
-        System.out.println(json.getJSONObject("root"));*//*
-
-
-        Shape shapeObject = shapeFactory.getShape(shape);
-        dataBaseDriver.add(shapeObject);
-
+        return shape.getId();
     }
 
-    public void executeOperation(String operation) {
+    @Override
+    public void updateShape(String json) {
+        Shape shape = shapeFactory.getShape(new JSONObject(json));
+        shape.setId(new JSONObject(json).getJSONObject("attrs").getString("id"));
+        shapeRepository.updateShape(shape);
+        shapeRepository.clearRedoStack();
 
+        shapeRepository.printDb();
     }
 
-    public String getLastID() {
-        return dataBaseDriver.getByIndex(dataBaseDriver.getDataBaseSize() - 1).getId();
+    @Override
+    public String copyAndInsert(String id) {
+       Shape shape = shapeRepository.copyShape(id);
+       shapeRepository.createShape(shape);
+       shapeRepository.clearRedoStack();
+
+       shapeRepository.printDb();
+
+       return shape.getId();
     }
 
-    public ArrayList<Shape> getDataBase() {
-        return dataBaseDriver.getDataBase();
-    }*/
+    @Override
+    public void deleteShape(String id) {
+        shapeRepository.deleteShape(id);
+        shapeRepository.clearRedoStack();
 
+        shapeRepository.printDb();
+    }
 
+    @Override
+    public String undo() {
+        Pair<List<Shape>, CRUD> result = shapeRepository.undo();
+        if (result == null) return null;
+
+        shapeRepository.printDb();
+
+        JSONArray array = JSONUtil.convertListToJSONArray(new ArrayList<>(result.getFirst()));
+        return JSONUtil.wrapListAndOperation(array,result.getSecond().name()).toString();
+    }
+
+    @Override
+    public String redo() {
+        Pair<List<Shape>, CRUD> result = shapeRepository.redo();
+        if (result == null) return null;
+
+        shapeRepository.printDb();
+
+        JSONArray array = JSONUtil.convertListToJSONArray(new ArrayList<>(result.getFirst()));
+        return JSONUtil.wrapListAndOperation(array,result.getSecond().name()).toString();
+    }
+
+    @Override
+    public void clearStage() {
+        shapeRepository.clearDB();
+        shapeRepository.clearRedoStack();
+        shapeRepository.printDb();
+    }
 }
+

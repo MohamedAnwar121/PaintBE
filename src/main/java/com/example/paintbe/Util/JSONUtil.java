@@ -1,4 +1,4 @@
-package com.example.paintbe.Service;
+package com.example.paintbe.Util;
 
 import com.example.paintbe.Service.Model.Shape;
 import com.fasterxml.jackson.databind.ObjectMapper;

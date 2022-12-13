@@ -1,4 +1,4 @@
-package com.example.paintbe.Service;
+package com.example.paintbe.Util;
 
 public class Pair<A, B> {
 

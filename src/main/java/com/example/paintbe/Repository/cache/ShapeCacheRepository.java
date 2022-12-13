@@ -1,11 +1,10 @@
 package com.example.paintbe.Repository.cache;
 
 import com.example.paintbe.Service.Model.Shape;
-import com.example.paintbe.Service.Pair;
+import com.example.paintbe.Util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Stack;
 
 @Component
