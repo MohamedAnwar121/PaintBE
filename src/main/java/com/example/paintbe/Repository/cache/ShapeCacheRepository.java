@@ -5,6 +5,7 @@ import com.example.paintbe.Service.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Stack;
 
 @Component
@@ -31,13 +32,6 @@ public class ShapeCacheRepository {
             history.getFirst().push(shape);//undo
         }
     }
-
-    // peek at undo stack only
-//    public Shape peekById(String id) {
-//        Pair<Stack<Shape>,Stack<Shape>> history = cache.get(id);
-//        if (history == null || history.getFirst().isEmpty()) return null;
-//        return history.getFirst().peek();
-//    }
 
     public Shape undoById(String id) {
         Pair<Stack<Shape>,Stack<Shape>> history = cache.get(id);
@@ -66,6 +60,12 @@ public class ShapeCacheRepository {
 
     public void clear() {
         cache.clear();
+    }
+
+    public void clearRedo(){
+        for (String key : cache.keySet()) cache.get(key).getSecond().clear();
+
+        //for (var val : cache.values()) val.getSecond().clear();
     }
 
 }

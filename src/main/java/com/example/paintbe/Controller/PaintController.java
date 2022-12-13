@@ -50,12 +50,12 @@ public class PaintController {
 
     @GetMapping("/Undo")
     public ResponseEntity<String> undoOperation() {
-        return ResponseEntity.ok(service.undo().toString());
+        return ResponseEntity.ok(service.undo());
     }
 
     @GetMapping("/Redo")
     public ResponseEntity<String> redoOperation() {
-        return ResponseEntity.ok(service.redo().toString());
+        return ResponseEntity.ok(service.redo());
     }
 
     @GetMapping("/Clear")

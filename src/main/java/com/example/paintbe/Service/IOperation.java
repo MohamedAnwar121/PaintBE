@@ -62,9 +62,9 @@ public interface IOperation {
      * in case of undo of Clear operation we pop the front of the undo stack and puts the object in the redo
      * stack and puts the dataBaseObject in your dataBase.
      */
-    JSONObject undo();
+    String undo();
 
-    JSONObject redo();
+    String redo();
 
 
     /**

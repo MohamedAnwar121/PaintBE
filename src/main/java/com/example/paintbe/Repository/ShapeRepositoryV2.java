@@ -60,15 +60,9 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
         return shape;
     }
 
-    public void printDb(){
-        var db = getDataBase();
-        System.out.println(db.size());
-        for (Shape shape : db){
-            System.out.println(shape.getId());
-        }
-    }
 
     public Pair<List<Shape>, CRUD> undo() {
+        if (undoActions.isEmpty()) return null;
         Pair<String, CRUD> lastAction = undoActions.pop();
         redoActions.push(lastAction);
         String id = lastAction.getFirst();
@@ -103,6 +97,7 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
     }
 
     public Pair<List<Shape>, CRUD> redo() {
+        if (redoActions.isEmpty()) return null;
         Pair<String, CRUD> lastAction = redoActions.pop();
         undoActions.push(lastAction);
         String id = lastAction.getFirst();
@@ -124,11 +119,25 @@ public class ShapeRepositoryV2 extends CRUDRepository<Shape> {
                 return new Pair<>(List.of(shape), CRUD.DELETE);
             }
             case CLEAR -> {
-                dbCacheRepo.redoClear();
+                var db = dbCacheRepo.redoClear();
                 super.deleteAll();
+                return new Pair<>(null,CRUD.CLEAR);
             }
         }
         return null;
     }
 
+    public void clearRedoStack(){
+        redoActions.clear();
+        dbCacheRepo.clearRedoDB();
+        shapeCacheRepo.clearRedo();
+    }
+
+    public void printDb(){
+        var db = getDataBase();
+        System.out.println(db.size());
+        for (Shape shape : db){
+            System.out.println(shape.getId());
+        }
+    }
 }

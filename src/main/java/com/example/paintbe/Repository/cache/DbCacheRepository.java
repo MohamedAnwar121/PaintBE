@@ -11,10 +11,8 @@ public class DbCacheRepository {
 
     private final static Stack<ArrayList<Shape>> undoDB = new Stack<>();
     private final static Stack<ArrayList<Shape>> redoDB = new Stack<>();
-    private final static ArrayList<Shape> cacheDB = new ArrayList<>();
 
     public void save(ArrayList<Shape> old){
-        //cacheDB.clear();
         ArrayList<Shape> newDB = new ArrayList<>();
         old.forEach(shape -> newDB.add(shape.clone()));
         undoDB.push(newDB);
@@ -22,8 +20,8 @@ public class DbCacheRepository {
 
     public ArrayList<Shape> undoClear(){
         redoDB.push(undoDB.pop());
-        if (undoDB.isEmpty()) return null;
-        return undoDB.peek();
+        if (redoDB.isEmpty()) return null;
+        return redoDB.peek();
     }
 
     public ArrayList<Shape> redoClear(){
@@ -32,8 +30,8 @@ public class DbCacheRepository {
         return undoDB.peek();
     }
 
-
-    public ArrayList<Shape> get(){
-       return cacheDB;
+    public void clearRedoDB(){
+        redoDB.clear();
     }
+
 }

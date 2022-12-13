@@ -25,6 +25,7 @@ public class ShapeService implements IOperation{
     public String addNewShape(String json) {
         Shape shape = shapeFactory.getShape(new JSONObject(json));
         shapeRepository.createShape(shape);
+        shapeRepository.clearRedoStack(); // for clear the redo stack after every operation
 
         shapeRepository.printDb();
 
@@ -36,6 +37,8 @@ public class ShapeService implements IOperation{
         Shape shape = shapeFactory.getShape(new JSONObject(json));
         shape.setId(new JSONObject(json).getJSONObject("attrs").getString("id"));
         shapeRepository.updateShape(shape);
+        shapeRepository.clearRedoStack();
+
         shapeRepository.printDb();
     }
 
@@ -43,6 +46,7 @@ public class ShapeService implements IOperation{
     public String copyAndInsert(String id) {
        Shape shape = shapeRepository.copyShape(id);
        shapeRepository.createShape(shape);
+       shapeRepository.clearRedoStack();
 
        shapeRepository.printDb();
 
@@ -52,31 +56,38 @@ public class ShapeService implements IOperation{
     @Override
     public void deleteShape(String id) {
         shapeRepository.deleteShape(id);
+        shapeRepository.clearRedoStack();
 
         shapeRepository.printDb();
     }
 
     @Override
-    public JSONObject undo() {
-        //return new Pair<>(result.first,result.second.name());
+    public String undo() {
         Pair<List<Shape>, CRUD> result = shapeRepository.undo();
+        if (result == null) return null;
+
         shapeRepository.printDb();
+
         JSONArray array = JSONUtil.convertListToJSONArray(new ArrayList<>(result.getFirst()));
-        return JSONUtil.wrapListAndOperation(array,result.getSecond().name());
+        return JSONUtil.wrapListAndOperation(array,result.getSecond().name()).toString();
     }
 
     @Override
-    public JSONObject redo() {
-        //return new Pair<>(result.first,result.second.name());
+    public String redo() {
         Pair<List<Shape>, CRUD> result = shapeRepository.redo();
+        if (result == null) return null;
+
         shapeRepository.printDb();
+
         JSONArray array = JSONUtil.convertListToJSONArray(new ArrayList<>(result.getFirst()));
-        return JSONUtil.wrapListAndOperation(array,result.getSecond().name());
+        return JSONUtil.wrapListAndOperation(array,result.getSecond().name()).toString();
     }
 
     @Override
     public void clearStage() {
         shapeRepository.clearDB();
+        shapeRepository.clearRedoStack();
+        shapeRepository.printDb();
     }
 }
 

@@ -51,7 +51,7 @@ public class CRUDRepository<T extends Shape> implements IDataBaseRepository<T> {
 
     @Override
     public boolean delete(String id) {
-        Shape shape = this.getByID(id);
+        T shape = this.getByID(id);
         if (shape == null) return false;
         return DataBase.remove(shape);
     }
