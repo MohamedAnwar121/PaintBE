@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class JSONUtil {
-    public static JSONObject convertShapeToJSON(Shape shape) {
+    private static JSONObject convertShapeToJSON(Shape shape) {
         ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = null;
         try {

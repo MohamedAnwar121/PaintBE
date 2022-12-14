@@ -98,8 +98,10 @@ public class PaintController {
 
 
 
-    /*@GetMapping("/GETDataBase")
-    public ArrayList<Shape> getDataBase() {
-        return service.getDataBase();
-    }*/
+    @GetMapping("/Refresh")
+    public ResponseEntity<String> getDbAfterRefresh() {
+        var temp = paintService.loadAfterRefresh();
+        System.out.println(temp);
+        return ResponseEntity.ok(temp);
+    }
 }

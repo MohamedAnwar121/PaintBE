@@ -1,12 +1,14 @@
 package com.example.paintbe.Repository.cache;
 
 import com.example.paintbe.Service.Model.Shape;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
 @Component
+@Scope("singleton")
 public class DbCacheRepository {
 
     private final static Stack<ArrayList<Shape>> undoDB = new Stack<>();

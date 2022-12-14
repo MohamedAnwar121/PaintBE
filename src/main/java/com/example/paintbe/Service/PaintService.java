@@ -107,5 +107,13 @@ public class PaintService implements IOperation{
 
         shapeRepository.printDb();
     }
+
+    public String loadAfterRefresh(){
+        ArrayList<Shape> db = shapeRepository.getDataBase();
+        if (db == null || db.size() == 0) return null;
+
+        JSONArray array = JSONUtil.convertListToJSONArray(db);
+        return JSONUtil.wrapListAndOperation(array,"Create").toString();
+    }
 }
 

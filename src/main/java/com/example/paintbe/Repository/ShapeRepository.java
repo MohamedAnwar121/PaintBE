@@ -7,6 +7,7 @@ import com.example.paintbe.Repository.db.CRUDRepository;
 import com.example.paintbe.Service.Model.*;
 import com.example.paintbe.Util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 @Component
+@Scope("singleton")
 public class ShapeRepository extends CRUDRepository<Shape> {
 
     private ShapeCacheRepository shapeCacheRepo;
