@@ -133,6 +133,17 @@ public class ShapeRepository extends CRUDRepository<Shape> {
         shapeCacheRepo.clearRedo();
     }
 
+    public void clearUndoActions(){
+       undoActions.clear();
+    }
+
+    public void clearAll(){
+        deleteAll();
+        shapeCacheRepo.clear();
+        undoActions.clear();
+        redoActions.clear();
+    }
+
     public void printDb(){
         var db = getDataBase();
         System.out.println(db.size());

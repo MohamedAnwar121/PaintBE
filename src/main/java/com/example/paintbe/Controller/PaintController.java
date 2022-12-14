@@ -81,7 +81,9 @@ public class PaintController {
 
     @PostMapping("/Load")
     public ResponseEntity<String> load(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(storageService.save(file).toString());
+        String json = storageService.save(file).toString();
+        paintService.loadDBAndCache(json);
+        return ResponseEntity.ok(json);
     }
 
 

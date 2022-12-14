@@ -28,7 +28,7 @@ public class ShapeCacheRepository {
         if (history == null){
             save(shape);
         }else {
-            history.getFirst().push(shape);//undo
+            history.getFirst().push(shape); //undo
         }
     }
 
@@ -63,7 +63,6 @@ public class ShapeCacheRepository {
 
     public void clearRedo(){
         for (String key : cache.keySet()) cache.get(key).getSecond().clear();
-
         //for (var val : cache.values()) val.getSecond().clear();
     }
 

@@ -89,6 +89,22 @@ public class PaintService implements IOperation{
     public void clearStage() {
         shapeRepository.clearDB();
         shapeRepository.clearRedoStack();
+
+        shapeRepository.printDb();
+    }
+
+    public void loadDBAndCache(String json){
+        // clears database without caching
+        shapeRepository.clearAll();
+
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray childrenOne = jsonObject.getJSONArray("children");
+        JSONObject childOneObject = (JSONObject) childrenOne.get(0);
+        JSONArray childTwo = childOneObject.getJSONArray("children");
+
+        for (int i = 1; i < childTwo.length(); i++) addNewShape(childTwo.get(i).toString());
+        shapeRepository.clearUndoActions();
+
         shapeRepository.printDb();
     }
 }

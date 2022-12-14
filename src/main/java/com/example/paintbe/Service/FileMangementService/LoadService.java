@@ -17,7 +17,8 @@ public class LoadService {
         try {
             BufferedReader br = new BufferedReader(new FileReader(savedData));
             while ((str = br.readLine()) != null) builder.append(str);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         data = builder.toString();
         String fileName = savedData.getName();
@@ -29,17 +30,17 @@ public class LoadService {
         }
 
         fileFormat = builder.reverse().toString();
-        JSONObject jsonObject = convertFileToJSON(data,fileFormat);
+        JSONObject jsonObject = convertFileToJSON(data, fileFormat);
         System.out.println(jsonObject.toString());
-        return convertFileToJSON(data,fileFormat);
+        return convertFileToJSON(data, fileFormat);
     }
 
-    public JSONObject convertFileToJSON(String data,String format) {
-
-        return switch (format){
+    public JSONObject convertFileToJSON(String data, String format) {
+        return switch (format) {
             case "json" -> new JSONObject(data);
             case "xml" -> XML.toJSONObject(data).getJSONObject("root");
             default -> null;
         };
     }
+
 }

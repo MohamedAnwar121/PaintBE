@@ -18,6 +18,7 @@ public class SaveService {
         String fileName = jsonObject.getString("fileName");
 
         JSONObject jsonStage = new JSONObject(jsonObject.getString("jsonStage"));
+        if (fileName == null || fileName.equals("")) fileName = "untitled";
 
         return switch (fileType){
             case "JSON" -> constructJSONFile(jsonStage,fileName);
@@ -29,9 +30,10 @@ public class SaveService {
     private File constructXMLFile(JSONObject data,String fileName){
         String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>\n<root>" + XML.toString(data) + "</root>\n";
 
-        File file = new File(fileName.concat(".xml"));
+        String path = fileName + ".xml";
+        File file = new File(path);
         try {
-            FileWriter myWriter = new FileWriter(fileName.concat(".xml"));
+            FileWriter myWriter = new FileWriter(path);
             myWriter.write(xml);
             myWriter.close();
         } catch (IOException ignored) {}
@@ -40,10 +42,11 @@ public class SaveService {
     }
 
     private File constructJSONFile(JSONObject json,String fileName){
-        File file = new File(fileName.concat(".json"));
+        String path = fileName + ".json";
+        File file = new File(path);
         System.out.println(file.getName());
         try {
-            FileWriter myWriter = new FileWriter(fileName.concat("json"));
+            FileWriter myWriter = new FileWriter(path);
             myWriter.write(json.toString());
             myWriter.close();
         } catch (IOException ignored) {}

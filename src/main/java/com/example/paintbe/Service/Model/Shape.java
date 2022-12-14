@@ -106,6 +106,7 @@ public abstract class Shape implements Cloneable, Serializable {
         if (object.has("scaleX")) this.setScaleX(object.getDouble("scaleX"));
         if (object.has("scaleY")) this.setScaleY(object.getDouble("scaleY"));
         if (object.has("type")) this.setType(object.getString("type"));
+        if (object.has("id")) this.setId(object.getString("id"));
     }
 
     @Override

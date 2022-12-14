@@ -16,6 +16,8 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 @Service
 public class FilesStorageService {
 
@@ -55,7 +57,7 @@ public class FilesStorageService {
 
     public JSONObject save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()),REPLACE_EXISTING);
             return loadService.load(convert(file));
         } catch (Exception e) {
             throw (e instanceof FileAlreadyExistsException) ?
